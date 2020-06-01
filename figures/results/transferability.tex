@@ -1,0 +1,357 @@
+\documentclass[tikz]{standalone}
+
+\usepackage{pgfplots}
+\usetikzlibrary{patterns}
+\usepgfplotslibrary{groupplots}
+
+\begin{document}
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 96.25, 
+        3, 93.71, {SdI}
+    }\BOS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 92.28, {ScI}
+        3, 73.12, {SdI}
+    }\BUS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 92.31, {ScI}
+        3, 95.28, {ScI}
+    }\BIB
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 100, {ScI}
+        3, 100, {ScI}
+    }\BIT
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 99.87,
+        3, 99.30,
+    }\FOS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 86.01, {SdA}
+        3, 94.17, {ScI}
+    }\FUS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 52.95, {KG}
+        3, 86.3, {SdI}
+    }\FIB
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 100,
+        3, 100,
+    }\FIT
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 86.39, 
+        3, 95.57,
+    }\FIG
+
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 91.71, 
+        3, 62.44, 
+    }\oldBOS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 72.75,
+        3, 52.46, 
+    }\oldBUS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 90.91,
+        3, 47.56,
+    }\oldBIB
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 100, 
+        3, 48.84,
+    }\oldBIT
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 99.46, 
+        3, 98.69, 
+    }\oldFOS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 75.41,
+        3, 74.61, 
+    }\oldFUS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 85.12,
+        3, 76.58,
+    }\oldFIB
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 100, 
+        3, 100, 
+    }\oldFIT
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 86.48, 
+        3, 90.99, 
+    }\oldFIG
+
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 91.71, 
+        3, 62.44, 
+    }\baseBOS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 58.64, 
+        3, 50.46, 
+    }\baseBUS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 90.41, 
+        3, 28.61, 
+    }\baseBIB
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 100, 
+        3, 46.76, 
+    }\baseBIT
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 99.10, 
+        3, 98.69, 
+    }\baseFOS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 35.81, 
+        3, 72.86, 
+    }\baseFUS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 46.38, 
+        3, 69.68, 
+    }\baseFIB
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 100, 
+        3, 100, 
+    }\baseFIT
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 86.48, 
+        3, 89.0, 
+    }\baseFIG
+
+    \begin{tikzpicture}
+        \begin{groupplot}[
+            group style = {
+                group size=2 by 2,
+                horizontal sep=2ex,
+                group name=f_scores
+            },
+            ybar,
+            xtick={data},
+            xticklabels={Elancourt, Na-P13},
+            x tick label style={font=\bfseries},
+            xtick align=outside,
+            xtick pos=left,
+            ytick pos=left,
+            nodes near coords={\pgfplotspointmeta},
+            nodes near coords style={anchor=west, black, rotate=90, align=center, font={\bfseries}},
+            point meta=explicit symbolic,
+            every axis plot/.append style={thick},
+            ymax=100,
+            ymin=0,
+            legend columns=-2
+        ]
+            \nextgroupplot[
+                ylabel={F-score (\%)},
+                ylabel style={yshift=-1.25em},
+                bar width=10pt,
+                xmin=0,
+                xmax=4,
+                legend to name=building_legend_best_transf
+            ]
+                \addplot+[
+                    bar shift = -15pt,
+                    fill=green!40,
+                    draw=green
+                ] table[x=x, y=y, meta index=2] {\BOS};
+                \addlegendentry {\footnotesize \strut \texttt{BOS}}
+                \addplot+[
+                    bar shift = -5pt,
+                    fill=cyan!40,
+                    draw=cyan
+                ] table[x=x, y=y, meta index=2] {\BUS};
+                \addlegendentry {\footnotesize \strut \texttt{BUS}}
+                \addplot+[
+                    bar shift = 5pt,
+                    fill=red!40,
+                    draw=red
+                ] table[x=x, y=y, meta index=2] {\BIB};
+                \addlegendentry {\footnotesize \strut \texttt{BIB}}
+                \addplot+[
+                    bar shift = 15pt,
+                    fill=olive!40,
+                    draw=olive
+                ] table[x=x, y=y, meta index=2] {\BIT};
+                \addlegendentry {\footnotesize \strut \texttt{BIT}}
+                
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = -15pt,
+                    pattern=north east lines,
+                    draw=green
+                ] table[x=x, y=y, meta index=2] {\oldBOS};
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = -5pt,
+                    pattern=north east lines,
+                    draw=cyan
+                ] table[x=x, y=y, meta index=2] {\oldBUS};
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = 5pt,
+                    pattern=north east lines,
+                    draw=red
+                ] table[x=x, y=y, meta index=2] {\oldBIB};
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = 15pt,
+                    pattern=north east lines,
+                    draw=olive
+                ] table[x=x, y=y, meta index=2] {\oldBIT};
+
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = -15pt,
+                    pattern=north west lines,
+                    draw=green
+                ] table[x=x, y=y, meta index=2] {\baseBOS};
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = -5pt,
+                    pattern=north west lines,
+                    draw=cyan
+                ] table[x=x, y=y, meta index=2] {\baseBUS};
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = 5pt,
+                    pattern=north west lines,
+                    draw=red
+                ] table[x=x, y=y, meta index=2] {\baseBIB};
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = 15pt,
+                    pattern=north west lines,
+                    draw=olive
+                ] table[x=x, y=y, meta index=2] {\baseBIT};
+            \nextgroupplot[
+                yticklabels={,,},
+                bar width=10pt,
+                xmin=0,
+                xmax=4,
+                legend to name=facet_legend_best_transf
+            ]
+                \addplot+[
+                    bar shift = -20pt,
+                    fill=green!40,
+                    draw=green
+                ] table[x=x, y=y, meta index=2] {\FOS};
+                \addlegendentry {\footnotesize \strut \texttt{FOS}}
+                \addplot+[
+                    bar shift = -10pt,
+                    fill=cyan!40,
+                    draw=cyan
+                ] table[x=x, y=y, meta index=2] {\FUS};
+                \addlegendentry {\footnotesize \strut \texttt{FUS}}
+                \addplot+[
+                    bar shift = 0pt,
+                    fill=red!40,
+                    draw=red
+                ] table[x=x, y=y, meta index=2] {\FIB};
+                \addlegendentry {\footnotesize \strut \texttt{FIB}}
+                \addplot+[
+                    bar shift = 10pt,
+                    fill=olive!40,
+                    draw=olive
+                ] table[x=x, y=y, meta index=2] {\FIT};
+                \addlegendentry {\footnotesize \strut \texttt{FIT}}
+                \addplot+[
+                    bar shift = 20pt,
+                    fill=violet!40,
+                    draw=violet
+                ] table[x=x, y=y, meta index=2] {\FIG};
+                \addlegendentry {\footnotesize \strut \texttt{FIG}}
+
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = -20pt,
+                    pattern=north east lines,
+                    draw=green
+                ] table[x=x, y=y, meta index=2] {\oldFOS};
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = -10pt,
+                    pattern=north east lines,
+                    draw=cyan
+                ] table[x=x, y=y, meta index=2] {\oldFUS};
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = 0pt,
+                    pattern=north east lines,
+                    draw=red
+                ] table[x=x, y=y, meta index=2] {\oldFIB};
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = 10pt,
+                    pattern=north east lines,
+                    draw=olive
+                ] table[x=x, y=y, meta index=2] {\oldFIT};
+                \addplot+[
+                    visible on=<2->,
+                    bar shift = 20pt,
+                    pattern=north east lines,
+                    draw=violet
+                ] table[x=x, y=y, meta index=2] {\oldFIG};
+
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = -20pt,
+                    pattern=north west lines,
+                    draw=green
+                ] table[x=x, y=y, meta index=2] {\baseFOS};
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = -10pt,
+                    pattern=north west lines,
+                    draw=cyan
+                ] table[x=x, y=y, meta index=2] {\baseFUS};
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = 0pt,
+                    pattern=north west lines,
+                    draw=red
+                ] table[x=x, y=y, meta index=2] {\baseFIB};
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = 10pt,
+                    pattern=north west lines,
+                    draw=olive
+                ] table[x=x, y=y, meta index=2] {\baseFIT};
+                \addplot+[
+                    visible on=<3->,
+                    bar shift = 20pt,
+                    pattern=north west lines,
+                    draw=violet
+                ] table[x=x, y=y, meta index=2] {\baseFIG};
+        \end{groupplot}
+
+        \path (f_scores c1r1.north) + (0, 2.25em) node[inner sep=0pt, anchor=south] (b_legend) {\ref{building_legend_best_transf}};
+        \path (f_scores c1r1.south) + (0, -1.5em) node[anchor=north, text width=5cm, align=center] (building_title) {\large\texttt{Building errors}};
+
+        \path (f_scores c2r1 |- b_legend) node[inner sep=0pt] {\ref{facet_legend_best_transf}};
+        \path (f_scores c2r1 |- building_title) node[text width=5cm, align=center] {\large\texttt{Facet errors}};
+    \end{tikzpicture}
+\end{document}

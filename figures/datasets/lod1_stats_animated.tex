@@ -1,0 +1,102 @@
+\documentclass[tikz]{standalone}
+
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+
+\begin{document}
+    \pgfplotstableread[col sep=comma, header=false]{
+        1, 1342, 667
+        2, 473, 1536
+        3, 203, 1806
+        4, 99, 1910
+    }\buildingEl
+    \pgfplotstablecreatecol[
+        create col/expr={
+            \thisrow{1} + \thisrow{2}
+        }
+    ]{sum}{\buildingEl}
+
+    \pgfplotstableread[col sep=comma, header=false]{
+        1, 291, 457
+        2, 68, 680
+        3, 99, 649
+        4, 113, 635
+    }\buildingNa
+    \pgfplotstablecreatecol[
+        create col/expr={
+            \thisrow{1} + \thisrow{2}
+        }
+    ]{sum}{\buildingNa}
+
+    \pgfplotstableread[col sep=comma, header=false]{
+        1, 202, 276
+        2, 63, 415
+        3, 55, 423
+        4, 76, 402
+    }\buildingPa
+    \pgfplotstablecreatecol[
+        create col/expr={
+            \thisrow{1} + \thisrow{2}
+        }
+    ]{sum}{\buildingPa}
+
+    \pgfplotsset{
+        percentage plot/.style={
+            point meta=explicit,
+            every node near coord/.append style={
+                color=black,
+                align=center,
+                font=\scriptsize,
+            },
+            nodes near coords={
+                \pgfmathtruncatemacro\iszero{\originalvalue==0}
+                \ifnum\iszero=0
+                    \pgfmathprintnumber[fixed zerofill,precision=0]{\pgfplotspointmeta}
+                \fi
+            },
+            nodes near coords align={vertical},
+            visualization depends on={y \as \originalvalue}
+        },
+        percentage series/.style={
+            table/y expr=(\thisrow{#1} / \thisrow{sum} * 100),
+            table/meta=#1
+        }
+    }
+
+    \begin{tikzpicture}
+        \node (figure) at (0, 0) {};
+        \begin{axis}[
+            ylabel={Ratio (\%)},
+            ybar,
+            percentage plot,
+            bar width=10pt,
+            xticklabels={{BOS\\\vphantom{m}}, BUS, BIB, BIT},
+            xtick=data,
+            xtick align=outside,
+            ytick align=outside,
+            xtick pos=left,
+            ytick pos=left,
+            x tick label style={font=\ttfamily, text width=2cm, align=center},
+            ymax=100,
+            ymin=0,
+            xmax=4.6,
+            xmin=.4,
+            legend style={
+                legend columns=-2,
+                at={(.5,1.05)},
+                anchor=south
+            },
+            at={(figure)}
+        ]
+            \addplot table [percentage series=1] {\buildingEl};
+            \addplot table [percentage series=1] {\buildingNa};
+            \addplot table [percentage series=1] {\buildingPa};
+            \legend{
+                \footnotesize \strut \textbf{Elancourt},
+                \footnotesize \strut \textbf{Nantes},
+                \footnotesize \strut \textbf{Paris-13}
+            }
+        \end{axis}
+        \path (figure.south) node[anchor=north] {};
+    \end{tikzpicture}
+\end{document}

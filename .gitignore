@@ -1,0 +1,10 @@
+# Git ignored files
+
+# Latex output
+*.pdf
+*.ist
+*.synctex.gz
+*.xml
+*.bcf
+*.aux
+*.log

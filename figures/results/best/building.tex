@@ -1,0 +1,127 @@
+\documentclass[tikz]{standalone}
+
+\usepackage{pgfplots}
+
+\begin{document}
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 91.71, 
+        3, 62.44, 
+    }\BOS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 72.75, {S(d)-Im.}
+        3, 52.46, 
+    }\BUS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 90.91, {S(c)-Im.}
+        3, 47.56, {K-S(c)-Im.}
+    }\BIB
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 100, 
+        3, 48.84, {K-S(c)-Im.}
+    }\BIT
+
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 84.12, 
+        3, 62.44, 
+    }\oldBOS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 53.88, 
+        3, 50.46, 
+    }\oldBUS
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 26.88, 
+        3, 3.84, 
+    }\oldBIB
+    \pgfplotstableread[col sep=comma]{
+        x, y, label
+        1, 39.68, 
+        3, 10.10, 
+    }\oldBIT
+
+    \begin{tikzpicture} 
+        \begin{axis}[
+            ylabel={F-score (\%)},
+            ybar,
+            bar width=20pt,
+            xtick={data},
+            xticklabels={Elancourt, Na-P13},
+            x tick label style={align=center, font=\bfseries},
+            xtick align=outside,
+            ytick align=outside,
+            xtick pos=left,
+            ytick pos=left,
+            nodes near coords={\pgfplotspointmeta},
+            nodes near coords style={black, text width=20pt, align=center, font={\bfseries \tiny}},
+            point meta=explicit symbolic,
+            every axis plot/.append style={thick},
+            ymax=100,
+            ymin=0,
+            xmin=0,
+            xmax=4,
+            legend style={
+                legend columns=-2,
+                at={(.5,1.05)},
+                anchor=south
+            }
+        ]
+            \addplot+[
+                bar shift = -30pt,
+                fill=green!40,
+                draw=green
+            ] table[x=x, y=y, meta index=2] {\BOS};
+            \addplot+[
+                bar shift = -10pt,
+                fill=cyan!40,
+                draw=cyan
+            ] table[x=x, y=y, meta index=2] {\BUS};
+            \addplot+[
+                bar shift = 10pt,
+                fill=red!40,
+                draw=red
+            ] table[x=x, y=y, meta index=2] {\BIB};
+            \addplot+[
+                bar shift = 30pt,
+                fill=olive!40,
+                draw=olive
+            ] table[x=x, y=y, meta index=2] {\BIT};
+            \legend{
+                \footnotesize \strut \texttt{BOS},
+                \footnotesize \strut \texttt{BUS},
+                \footnotesize \strut \texttt{BIB},
+                \footnotesize \strut \texttt{BIT}
+            }
+
+            \addplot+[
+                visible on=<2->,
+                bar shift = -30pt,
+                pattern=north east lines,
+                draw=green
+            ] table[x=x, y=y, meta index=2] {\oldBOS};
+            \addplot+[
+                visible on=<2->,
+                bar shift = -10pt,
+                pattern=north east lines,
+                draw=cyan
+            ] table[x=x, y=y, meta index=2] {\oldBUS};
+            \addplot+[
+                visible on=<2->,
+                bar shift = 10pt,
+                pattern=north east lines,
+                draw=red
+            ] table[x=x, y=y, meta index=2] {\oldBIB};
+            \addplot+[
+                visible on=<2->,
+                bar shift = 30pt,
+                pattern=north east lines,
+                draw=olive
+            ] table[x=x, y=y, meta index=2] {\oldBIT};
+        \end{axis} 
+    \end{tikzpicture}
+\end{document}

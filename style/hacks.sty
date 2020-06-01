@@ -1,0 +1,47 @@
+% Continuous numbering
+\makeatletter
+\renewcommand\mainmatter{
+    \@mainmattertrue\cleardoublepage\renewcommand\thepage{\arabic{page}}}
+\makeatother
+
+% Solves titlepage numbering bug
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+
+% ostar definition
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+    \ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+    \vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+
+% Insert empty page
+\newcommand{\emptypage}{
+    \clearpage
+    \thispagestyle{empty}
+    \mbox{}
+    \clearpage
+}
+
+% Comma between name and year
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+
+% Bold names in references
+\renewcommand*{\mkbibnamegiven}[1]{%
+  \ifitemannotation{highlight}
+    {\mkbibbold{#1}}
+    {#1}}
+
+\renewcommand*{\mkbibnamefamily}[1]{%
+  \ifitemannotation{highlight}
+    {\mkbibbold{#1}}
+    {#1}}
+
+% Small caps in french
+\DefineBibliographyExtras{french}{\restorecommand\mkbibnamefamily}

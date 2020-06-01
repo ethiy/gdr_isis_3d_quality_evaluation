@@ -1,0 +1,234 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerinnerthemeign}[2018/03/29 IGN France color theme]
+
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{graphicx}
+\RequirePackage{adjustbox}
+
+\usetikzlibrary{backgrounds, positioning}
+\pgfplotsset{compat=1.13}
+
+
+\usecolortheme{ign}
+
+\mode<presentation>
+
+\setbeamertemplate{background}{
+    \begin{tikzpicture}
+        \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+        \ifnum\thepage>1\relax%
+            \fill[white,opacity=1] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+        \fi
+    \end{tikzpicture}
+}
+
+\newsavebox \tramebox
+\savebox \tramebox{
+    \begin{tikzpicture}
+        \begin{axis}[axis lines=none, width=9cm, height=7cm, at={(0cm, 0cm)}]
+            \foreach \line in {1,2,...,60}{
+                \addplot[
+                    only marks,
+                    color=IGNDarkGrey,
+                    mark=*,
+                    mark size=.075pt,
+                    samples=50
+                ] {\line};
+            }
+        \end{axis}
+    \end{tikzpicture}
+}
+
+\newsavebox \titlebox
+\savebox \titlebox{
+    \begin{tikzpicture}
+        \fill[top color=IGNDarkGreen, bottom color = IGNGreen]
+        (-3, 2.75)
+        -- (2.5, 2.25)
+        -- (2.8, -1.15)
+        -- (-1.5, -1.5)
+        -- (-3.2, 0);
+    \end{tikzpicture}
+}
+\defbeamertemplate*{title page}{ign}[1][]
+{
+    \newgeometry{top=0cm, left=0cm, right=0cm, bottom=0cm}
+    \hspace{-.75cm}
+    \begin{tikzpicture}
+        \node (ign_logo) at (-1, 0) {
+            \includegraphics[width=1.606911447cm]{images/logos/logo-ign}
+        };
+        \path (ign_logo.south) node[anchor=north] (inria_logo) {
+            \includegraphics[width=1.606911447cm]{images/logos/logo-inria}
+        };
+        \path (ign_logo.north east) + (3, 0) node[anchor=north west] (trame) {\usebox \tramebox};
+        \path (inria_logo.south west) + (0, -2.25) node[anchor=north west] (background) {
+            {
+                \includegraphics[width=11.5cm]{images/logos/background-50}
+            }
+        };
+        \path (trame.west) + (2.5, -.75) node (title_box) {\usebox \titlebox};
+        \path (title_box) + (0, .4) node (title) {
+            \begin{beamercolorbox}[
+                wd=5.8cm,
+                sep=8pt,
+                #1
+            ]{title page header}
+              \usebeamerfont{title}{\bf \inserttitle\par}
+            \end{beamercolorbox}
+        };
+        \path (title.south) + (0, -.1) node (subtitle) {
+            \begin{beamercolorbox}[
+                wd=6cm,
+                sep=8pt,
+                #1
+            ]{subtitle page header}
+                \usebeamerfont{subtitle}
+                \begin{center}
+                    \insertsubtitle\par
+                \end{center}
+            \end{beamercolorbox}
+        };
+        \path (background.north) node[anchor=north] (author) {
+            \begin{beamercolorbox}[
+                wd=10cm,
+                sep=8pt,
+                #1
+            ]{author}
+                \usebeamerfont{author}
+                \begin{center}
+                    \insertauthor\par
+                \end{center}
+            \end{beamercolorbox}
+        };
+        \path (author.south) + (0, -.1) node (institute) {
+            \begin{beamercolorbox}[
+                wd=6cm,
+                sep=8pt,
+                #1
+            ]{institute}
+                \usebeamerfont{institute}
+                \begin{center}
+                    \insertinstitute\par
+                \end{center}
+            \end{beamercolorbox}
+        };
+        \path (institute.south) + (0, -.1) node (date) {
+            \begin{beamercolorbox}[
+                wd=6cm,
+                sep=8pt,
+                #1
+            ]{date}
+                \usebeamerfont{date}
+                \begin{center}
+                    \insertdate\par
+                \end{center}
+            \end{beamercolorbox}
+        };
+    \end{tikzpicture}
+    \restoregeometry 
+    \addtocounter{framenumber}{-1}
+}
+
+
+\setbeamertemplate{beginsection}{
+    \begin{tikzpicture}
+        \path (0, -2) node (trame) {\usebox \tramesectionbox};
+        \path (trame) + (1, 1) node (section_number_box) {\usebox \sectionnumberbox};
+        \path (section_number_box) + (0.2, .5) node (section_number) {
+            \begin{beamercolorbox}[
+                wd=2cm,
+                sep=8pt
+            ]{sectionnumber}
+                \usebeamerfont{sectionnumber} {\bf \insertsectionnumber\par}
+            \end{beamercolorbox}
+        };
+        \path (trame.east) + (1, -1) node (sectiontitle) {
+            \begin{beamercolorbox}[
+                wd=7cm,
+                sep=8pt
+            ]{sectiontitle}
+                \usebeamerfont{sectiontitle} \insertsection\par
+            \end{beamercolorbox}
+        };
+    \end{tikzpicture}
+}
+
+\setbeamertemplate{beginsubsection}{
+    \begin{tikzpicture}
+        \path (0, -2) node (trame) {\usebox \tramesectionbox};
+        \path (trame) + (1, 1) node (section_number_box) {\usebox \sectionnumberbox};
+        \path (section_number_box) + (0.2, .5) node (section_number) {
+            \begin{beamercolorbox}[
+                wd=2cm,
+                sep=8pt
+            ]{sectionnumber}
+                \usebeamerfont{sectionnumber} {\bf \insertsectionnumber\par}
+            \end{beamercolorbox}
+        };
+        \path (trame.east) + (1, -1) node (sectiontitle) {
+            \begin{beamercolorbox}[
+                wd=7cm,
+                sep=8pt
+            ]{sectiontitle}
+                \usebeamerfont{sectiontitle} \insertsection\par
+            \end{beamercolorbox}
+        };
+        \path (sectiontitle.south) + (2, -.2) node (sectionsubtitle) {
+            \begin{beamercolorbox}[
+                wd=7cm,
+                sep=8pt
+            ]{sectionsubtitle}
+                \usebeamerfont{sectionsubtitle} \insertsubsection\par
+            \end{beamercolorbox}
+        };
+    \end{tikzpicture}
+}
+
+
+\setbeamertemplate{endpage}{
+    \newgeometry{top=0cm, left=0cm, right=0cm, bottom=0cm}
+    \hspace{-.75cm}
+    \begin{tikzpicture}
+        \node (ign_logo) at (-1, 0) {
+            \includegraphics[width=1.606911447cm]{images/logos/logo-ign}
+        };
+        \path (ign_logo.south) node[anchor=north] (inria_logo) {
+            \includegraphics[width=1.606911447cm]{images/logos/logo-inria}
+        };
+        \path (inria_logo.south) node[anchor=north] (upe_logo) {
+            \includegraphics[width=1.606911447cm]{images/logos/logo-upe}
+        };
+        \path (ign_logo.north east) + (3, 0) node[anchor=north west] (trame) {\usebox \tramebox};
+        \path (upe_logo.south west) + (0, -1.75) node[anchor=north west] (background) {
+            {
+                \includegraphics[width=11.5cm]{images/logos/background-50}
+            }
+        };
+        \path (trame.west) + (2.5, -.75) node (title_box) {\usebox \titlebox};
+        \path (title_box) + (0, .75) node (thanks) {
+            \begin{beamercolorbox}[
+                wd=4cm,
+                sep=8pt
+            ]{title page header}
+                \usebeamerfont{title}
+                \begin{center}
+                    Thank you for your attention!
+                \end{center}
+            \end{beamercolorbox}
+        };
+        \path (background.north) node[anchor=north] (author) {
+            \begin{beamercolorbox}[
+                wd=4cm,
+                sep=8pt
+            ]{author}
+                \usebeamerfont{author}
+                \begin{center}
+                    \insertauthor\par
+                \end{center}
+            \end{beamercolorbox}
+        };
+    \end{tikzpicture}
+    \restoregeometry
+}

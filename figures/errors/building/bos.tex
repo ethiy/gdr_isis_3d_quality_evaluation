@@ -1,0 +1,49 @@
+\documentclass[tikz]{standalone}
+
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\usepackage{tikz}
+\usetikzlibrary{3d}
+
+\begin{document}
+    \newenvironment{3dtikzpicture}[3][]{
+        \pgfmathsetmacro\xx{cos(#3)}
+        \pgfmathsetmacro\xy{cos(#2)*sin(#3)}
+        \pgfmathsetmacro\yx{-sin(#3)}
+        \pgfmathsetmacro\yy{cos(#2)*cos(#3)}
+        \pgfmathsetmacro\zy{sin(#2)}
+        \begin{tikzpicture}[x={(\xx cm,\xy cm)},y={(\yx cm,\yy cm)},z={(0,\zy cm)},#1]
+    }{
+        \end{tikzpicture}
+    }
+
+	\tikzset{
+        face/.style={
+            fill=lightgray,
+            draw=black,
+            very thin,
+            line join=round,
+            fill opacity=.8
+        }
+    }
+    \begin{3dtikzpicture}{45}{30}[scale=1]
+        \begin{scope}[canvas is zx plane at y=4]
+          	\path[face, fill=green, dashed] (0,0) rectangle (2,4);
+        \end{scope}
+        \path[face, fill=cyan,dashed] (5,3,2) -- (4,4,2) -- (4,4,0) -- (5,3,0) -- cycle;
+        \path[face, fill=cyan,dashed] (5,3,2) -- (5,3,0) -- (4,-1,0) -- (4,-1,2) -- (4.5,1,2.5) -- cycle;
+        \path[face, fill=cyan,dashed] (4,4,2) -- (4,4,0) -- (3,0,0) -- (3,0,2) -- (3.5,2,2.5) -- cycle;
+        \path[face, fill=cyan] (3.5,2,2.5) -- (4.5,1,2.5) -- (5,3,2) -- (4,4,2) -- cycle;
+        \path[face, fill=green] (0,4,2)-- (4,4,2) -- (3.5,2,2.5) -- (0,2,2.5) -- cycle;
+        \path[face, fill=green] (0,0,2) -- (0,2,2.5) -- (3.5,2,2.5) -- (3,0,2) -- cycle;
+        \path[face, fill=cyan] (3,0,2) -- (4,-1,2) -- (4.5,1,2.5) -- (3.5,2,2.5) -- cycle;
+        \begin{scope}[canvas is zy plane at x=0]
+          	\path[face, fill=green, shade] (0,0) -- (2,0) -- (2.5,2) -- (2,4) -- (0,4) -- cycle;
+        \end{scope}
+        \begin{scope}[canvas is zx plane at y=0]
+  			\path[face, fill=green, shade] (0,0) rectangle (2,3);
+        \end{scope}
+        \path[face, fill=cyan, shade] (3,0,0) -- (4,-1,0) -- (4,-1,2) -- (3,0,2) -- cycle;
+    \end{3dtikzpicture}
+\end{document}

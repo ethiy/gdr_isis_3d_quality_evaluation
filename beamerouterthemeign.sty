@@ -1,0 +1,81 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerouterthemeign}[2018/03/29 IGN France color theme]
+
+\RequirePackage{graphicx}
+
+
+\usecolortheme{ign}
+
+\mode<presentation>
+
+\defbeamertemplate*{frametitle}{ign}[1][]
+{
+    \vskip .5cm
+    \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle}
+        \begin{tikzpicture}
+        \useasboundingbox[fill=white](0,0) rectangle(\the\paperwidth,1.2);
+        \fill[IGNGreen] (.5, 0) rectangle(\the\paperwidth,1.2);
+        \ifx\insertframesubtitle\@empty{
+            \node[anchor=west,font=\large] at (1,0.61){\insertframetitle};
+        }
+        \else{
+            \node[anchor= west,font=\large] at (1,0.81){\insertframetitle};%
+            \node[anchor= west,font=\small] at (1,0.41){\insertframesubtitle};
+        }
+        \fi
+        \end{tikzpicture}
+    \end{beamercolorbox}
+}
+
+\newsavebox \framenumberbox
+\savebox \framenumberbox{
+    \begin{tikzpicture}
+        \fill[top color=IGNDarkGreen, bottom color = IGNGreen]
+        (0, .15)
+        -- (.25, .12)
+        -- (.3, -.09)
+        -- (-.05, -.15);
+    \end{tikzpicture}
+}
+\defbeamertemplate*{footline}{}
+{
+    \leavevmode
+    \newgeometry{top=0cm, left=0cm, right=0cm, bottom=0cm}
+    \hspace{-1.25cm}
+    \begin{tikzpicture}
+        \node (origin) {};
+        \path (origin.east) + (11.8, 0) node[anchor=west] (framenumber_box) {\usebox \framenumberbox};
+        \path ($(framenumber_box.east)!.55!(framenumber_box.west)$) node {
+            \begin{beamercolorbox}[
+                wd=2em,
+                sep=8pt
+            ]{framenumber footer}
+                \usebeamerfont{framenumber}
+                \centering \insertframenumber
+            \end{beamercolorbox}
+        };
+
+        \path (origin.east) + (.25, 0) node[anchor=west] (logo) {
+            \includegraphics[height=1.5em]{images/logos/bottom-logo-ign}
+        };
+        \path ($(logo.east)!.5!(framenumber_box.west)$) node (title) {
+            \begin{beamercolorbox}[
+                wd=6cm,
+                sep=8pt
+            ]{shorttitle footer}
+                \usebeamerfont{shorttitle}\insertshorttitle
+            \end{beamercolorbox}
+        };
+        \path (framenumber_box.west) node[anchor=east] (date) {
+            \begin{beamercolorbox}[
+                wd=2cm,
+                sep=8pt
+            ]{shortdate footer}
+                \usebeamerfont{shortdate}\insertshortdate
+            \end{beamercolorbox}
+        };
+        \draw[thick, color=IGNGrey!50] (logo.north west) -- (framenumber_box.north east);
+    \end{tikzpicture}
+    \restoregeometry 
+}
+\mode<all>
