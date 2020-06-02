@@ -37,18 +37,14 @@
 	\begin{tikzpicture}
 		\node[zone, fill=gray!20] (z1) at (-5, 0) {$Z_1$};
         \node[zone, fill=gray!20] (z2) at (1.25, 2.16506350946) {$Z_2$};
-        \node[zone, fill=gray!20]  (z3) at (1.25, -2.16506350946) {$Z_3$};
+        \node[zone, fill=gray!20]  (z3) at (1.25, -2.16506350946) {$Z_n$};
         
         \path (z1.west |- z2.north) + (-.125, .125) node (top_left) {};
         \path ($(z1) ! .5 ! (z2)$) node (middle) {};
         \path ( middle |- z2.north) node (top) {};
         \path (z3.south east) + (.125, -.125) node (bottom_right) {};
-                
-        \path[edge, out=70,in=110,looseness=8, visible on=<2>] (z1) to node[midway, above, align=center] {Vanilla} (z1);
-        \path[edge, out=70,in=110,looseness=8, visible on=<2>] (z2) to node[midway, above, align=center] {Vanilla} (z2);
-        \path[edge, out=70,in=110,looseness=8, visible on=<2>] (z3) to node[midway, above, align=center] {Vanilla} (z3);
         
-        \path[edge, darkgreen, visible on=<3>] (z1) to node[midway, sloped, above, align=center]{\scriptsize{Transferability}} (z2.west);
-        \path[edge, darkgreen, visible on=<3>] (z1) to node[midway, sloped, above, align=center]{\scriptsize{Transferability}} (z3.200);
+        \path[edge, darkgreen, visible on=<2>] (z1) to node[midway, sloped, above, align=center]{\scriptsize{Transferability}} (z2.west);
+        \path[edge, darkgreen, visible on=<2>] (z1) to node[midway, sloped, above, align=center]{\scriptsize{Transferability}} (z3.200);
 	\end{tikzpicture}
 \end{document}

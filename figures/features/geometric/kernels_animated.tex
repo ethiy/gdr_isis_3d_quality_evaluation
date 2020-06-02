@@ -1,0 +1,46 @@
+\documentclass[tikz]{standalone}
+
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{fourier}
+
+\usepackage{xcolor}
+\definecolor{darkgreen}{RGB}{0, 155, 85}
+
+\usepackage{standalone}
+
+\usepackage{pgfplots}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, shadows, calc, decorations, 3d}
+
+\usepackage{mathrsfs, amsmath}
+
+
+\begin{document}
+    \begin{tikzpicture}
+        \node (facet_graph) {\includestandalone[mode=buildmissing, height=4cm]{figures/toy_model/building_graph}};
+
+        \path (facet_graph) + (-.9, -1) node[black] (f) {\footnotesize \(f\)};
+
+        \path (facet_graph.west |- f) node[anchor=east, blue, visible on=<3-4>] (centroid) {\scriptsize \(\operatorname{Centroid}(f)\)};
+        \draw[->, blue, visible on=<3-6>] (f.west) -- (centroid.east);
+        \path (centroid.east) node[anchor=east, blue, visible on=<5>] (normal) {\scriptsize \(\operatorname{Normal}(f)\)};
+        \path (centroid.east) node[anchor=east, blue, visible on=<6>] (degree_area_circumference) {
+            \scriptsize \(\begin{bmatrix}
+                \operatorname{degree}(f)\\
+                \operatorname{Area}(f)\\
+                \operatorname{Circumference}(f)
+            \end{bmatrix}\)
+        };
+
+        \path (degree_area_circumference.west |- facet_graph.south) + (-1, 0) node[visible on=<4-6>, anchor=north west, align=left] (multi_scale_laplacian_kernel) {\small \textcolor{IGNGreen}{\(\blacktriangleright\)} Multiscale Laplacian kernel;};
+        \path (multi_scale_laplacian_kernel.south west) node[visible on=<4-6>, anchor=north west, align=left] (graph_hopper_kernel) {\small \textcolor{IGNGreen}{\(\blacktriangleright\)} Graph hopper kernel;};
+        \path (graph_hopper_kernel.south west) node[visible on=<4-6>, anchor=north west, align=left] (propagation_kernel) {\small \textcolor{IGNGreen}{\(\blacktriangleright\)} Propagation kernel.};
+
+        \path (degree_area_circumference.west |- facet_graph.south) + (-1, 0) node[visible on=<2>, anchor=north west, align=left] (random_walk_kernel) {\small \textcolor{IGNGreen}{\(\blacktriangleright\)} Random walk kernel;};
+        \path (random_walk_kernel.south west) node[visible on=<2>, anchor=north west, align=left] (svm_kernel) {\small \textcolor{IGNGreen}{\(\blacktriangleright\)} \acrshort{acr::svm} \(\vartheta\) kernel.};
+
+        \path (degree_area_circumference.west |- facet_graph.south) + (-1, 0) node[visible on=<7->, anchor=north west, align=left] (multi_scale_laplacian_kernel) {\small \textcolor{IGNGreen}{\(\blacktriangleright\)} Aggregated using \gls{acr::mkl}.};
+   \end{tikzpicture}
+\end{document}
