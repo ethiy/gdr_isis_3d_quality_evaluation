@@ -461,62 +461,7 @@
                 \end{itemize}
             \end{frame}
 
-            \begin{frame}{Our needs}
-                \begin{itemize}[label=$\blacktriangleright$, font=\color{IGNGreen}]
-                    \item<1-> Global feature vector per graph.
-                    \item<2-> Take structure into account.
-                    \item<3-> Different building types \(\implies\) different graph sizes.
-                    \item<4-> Handle small dataset.
-                \end{itemize}
-            \end{frame}
-
-            \begin{frame}{Proposed solution}
-                \begin{itemize}[label=$\blacktriangleright$, font=\color{IGNGreen}]
-                    \item<1-> Use kernel trick:
-                    \begin{itemize}[label=\(\rightarrow\)]
-                        \item<2-> Compare graphs with kernels (scalar products);
-                        \item<3-> Instead of computing feature vectors.
-                    \end{itemize}
-                \end{itemize}
-            \end{frame}
-
-            \begin{frame}{Multiple attributes, multiple graphs}
-                \raggedleft
-                \includestandalone[mode=buildnew, height=.8\textheight]{figures/features/geometric/kernels_animated}
-            \end{frame}
-
-        \subsection{Image features}
-            \begin{frame}{Our needs}
-                \begin{itemize}[label=$\blacktriangleright$, font=\color{IGNGreen}]
-                    \item<1-> Global feature vector per image.
-                    \item<2-> Handles:
-                    \begin{itemize}[label=$\blacktriangleright$, font=\color{IGNGreen}]
-                        \item<2-> both depth and RGB images.
-                        \item<3-> edges \& textures.
-                        \item<4-> small dataset.
-                    \end{itemize}
-                \end{itemize}
-                \vfill
-                \uncover<5->{
-                    Proposed solution: \Acrfull{acr::scatnet}~\parencite{mallat2012group}.
-                }
-            \end{frame}
-
-            \begin{frame}{\texorpdfstring{\acrshort*{acr::scatnet}}{ScatNet} vs. \texorpdfstring{\acrshort*{acr::cnn}}{ConvNet}}
-                \begin{itemize}[label=\(\blacktriangleright\), font=\color{IGNGreen}]
-                    \item<1-> Filters are hardcoded not learned:
-                    \begin{itemize}
-                        \item[\color{IGNDarkGreen} +]<2-> No need for a large dataset;
-                        \item[\color{IGNDarkGreen} +]<3-> Interpretable; 
-                        \item[\color{IGNRed} ---]<4-> Features: not adaptable.
-                    \end{itemize}
-                    \item<5-> Limited to shallow layers:
-                    \begin{itemize}
-                        \item[\color{IGNRed} ---]<6-> Less powerful~\parencite{oyallon2015deep}.
-                    \end{itemize}
-                \end{itemize}
-            \end{frame}
-            
+        \subsection{Image features}            
             \begin{frame}{Height based features}
                 \centering
                 \includestandalone[mode=buildnew, width=\textwidth]{figures/features/height/scatnet_animated}
@@ -567,10 +512,8 @@
                 \includestandalone[mode=buildnew, height=.65\textheight]{figures/results/vanilla}
 
                 \begin{itemize}[label=$\blacktriangleright$, font=\color{IGNGreen}]
-                    \item<only@1> \texttt{Building errors} on dense scenes: Still to be improved.
-                    \item<only@1> \texttt{Facet errors} always well detected.
-                    \item<only@2> If not better, at least as good as the baseline.
-                    \item<only@2> \phantom{M}
+                    \item \texttt{Building errors} on dense scenes: Still to be improved.
+                    \item \texttt{Facet errors} always well detected.
                 \end{itemize}
             \end{frame}
 
@@ -586,8 +529,6 @@
                     \item<only@1> Except \texttt{\acrshort{acr::fib}} on \textbf{Elancourt}.
                     \item<only@2> Compared to \texttt{Vanilla}.
                     \item<only@2> Always better to train on \textbf{Elancourt}.
-                    \item<only@3> Compared to the baseline.
-                    \item<only@3> Training independent from origin of model!
                 \end{itemize}
             \end{frame}
 
@@ -687,6 +628,37 @@
             \end{frame}
 
         \subsection*{ScatNet}
+            \begin{frame}{Our needs}
+                \begin{itemize}[label=$\blacktriangleright$, font=\color{IGNGreen}]
+                    \item<1-> Global feature vector per image.
+                    \item<2-> Handles:
+                    \begin{itemize}[label=$\blacktriangleright$, font=\color{IGNGreen}]
+                        \item<2-> both depth and RGB images.
+                        \item<3-> edges \& textures.
+                        \item<4-> small dataset.
+                    \end{itemize}
+                \end{itemize}
+                \vfill
+                \uncover<5->{
+                    Proposed solution: \Acrfull{acr::scatnet}~\parencite{mallat2012group}.
+                }
+            \end{frame}
+
+            \begin{frame}{\texorpdfstring{\acrshort*{acr::scatnet}}{ScatNet} vs. \texorpdfstring{\acrshort*{acr::cnn}}{ConvNet}}
+                \begin{itemize}[label=\(\blacktriangleright\), font=\color{IGNGreen}]
+                    \item<1-> Filters are hardcoded not learned:
+                    \begin{itemize}
+                        \item[\color{IGNDarkGreen} +]<2-> No need for a large dataset;
+                        \item[\color{IGNDarkGreen} +]<3-> Interpretable; 
+                        \item[\color{IGNRed} ---]<4-> Features: not adaptable.
+                    \end{itemize}
+                    \item<5-> Limited to shallow layers:
+                    \begin{itemize}
+                        \item[\color{IGNRed} ---]<6-> Less powerful~\parencite{oyallon2015deep}.
+                    \end{itemize}
+                \end{itemize}
+            \end{frame}
+
             \begin{frame}{\texorpdfstring{\acrshort*{acr::scatnet}}{ScatNet}}
                 \begin{itemize}[label=\(\blacktriangleright\), font=\color{IGNGreen}]
                     \item<1-> Reverse engineered \acrfull{acr::cnn}~\parencite{mallat2012group};

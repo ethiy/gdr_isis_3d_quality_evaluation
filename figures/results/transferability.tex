@@ -222,31 +222,6 @@
                     pattern=north east lines,
                     draw=olive
                 ] table[x=x, y=y, meta index=2] {\oldBIT};
-
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = -15pt,
-                    pattern=north west lines,
-                    draw=green
-                ] table[x=x, y=y, meta index=2] {\baseBOS};
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = -5pt,
-                    pattern=north west lines,
-                    draw=cyan
-                ] table[x=x, y=y, meta index=2] {\baseBUS};
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = 5pt,
-                    pattern=north west lines,
-                    draw=red
-                ] table[x=x, y=y, meta index=2] {\baseBIB};
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = 15pt,
-                    pattern=north west lines,
-                    draw=olive
-                ] table[x=x, y=y, meta index=2] {\baseBIT};
             \nextgroupplot[
                 yticklabels={,,},
                 bar width=10pt,
@@ -315,37 +290,6 @@
                     pattern=north east lines,
                     draw=violet
                 ] table[x=x, y=y, meta index=2] {\oldFIG};
-
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = -20pt,
-                    pattern=north west lines,
-                    draw=green
-                ] table[x=x, y=y, meta index=2] {\baseFOS};
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = -10pt,
-                    pattern=north west lines,
-                    draw=cyan
-                ] table[x=x, y=y, meta index=2] {\baseFUS};
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = 0pt,
-                    pattern=north west lines,
-                    draw=red
-                ] table[x=x, y=y, meta index=2] {\baseFIB};
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = 10pt,
-                    pattern=north west lines,
-                    draw=olive
-                ] table[x=x, y=y, meta index=2] {\baseFIT};
-                \addplot+[
-                    visible on=<3->,
-                    bar shift = 20pt,
-                    pattern=north west lines,
-                    draw=violet
-                ] table[x=x, y=y, meta index=2] {\baseFIG};
         \end{groupplot}
 
         \path (f_scores c1r1.north) + (0, 2.25em) node[inner sep=0pt, anchor=south] (b_legend) {\ref{building_legend_best_transf}};
